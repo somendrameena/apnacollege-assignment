@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from api.serializers import UserSerializer
 from api.utils import generate_token
 
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 @authentication_classes([])
