@@ -17,9 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from rest_framework.routers import SimpleRouter
+
 from api import views
 
-urlpatterns = [
+router = SimpleRouter()
+router.register('topic', views.TopicViewSet)
+router.register('chapter', views.ChapterViewSet)
+
+urlpatterns = router.urls + [
     path('admin/', admin.site.urls),
     path('login/', views.login, name='login'),
 ]

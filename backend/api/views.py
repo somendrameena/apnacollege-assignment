@@ -3,8 +3,10 @@ from django.contrib.auth import get_user_model, authenticate
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from api.serializers import UserSerializer
+from api.models import Topic, Chapter
+from api.serializers import UserSerializer, TopicSerializer, ChapterSerializer
 from api.utils import generate_token
 
 
@@ -31,3 +33,13 @@ def login(request):
             "message": "Invalid Input"
         }
         return Response(data, status=400)
+
+
+class TopicViewSet(ReadOnlyModelViewSet):
+    queryset = Topic.objects.filter(is_active=True)
+    serializer_class = TopicSerializer
+
+
+class ChapterViewSet(ReadOnlyModelViewSet):
+    queryset = Chapter.objects.filter(is_active=True)
+    serializer_class = ChapterSerializer
