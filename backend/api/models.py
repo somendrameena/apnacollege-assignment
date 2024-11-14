@@ -16,3 +16,14 @@ class Chapter(models.Model):
 
     def __str__(self) -> str:
         return self.topic.name+ " - " + self.name
+
+
+class Question(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.title

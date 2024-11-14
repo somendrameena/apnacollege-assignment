@@ -5,8 +5,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from api.models import Topic, Chapter
-from api.serializers import UserSerializer, TopicSerializer, ChapterSerializer
+from api.models import Topic, Chapter, Question
+from api.serializers import UserSerializer, TopicSerializer, ChapterSerializer, QuestionSerializer, QuestionDetailSerializer
 from api.utils import generate_token
 
 
@@ -43,3 +43,14 @@ class TopicViewSet(ReadOnlyModelViewSet):
 class ChapterViewSet(ReadOnlyModelViewSet):
     queryset = Chapter.objects.filter(is_active=True)
     serializer_class = ChapterSerializer
+
+
+class QuestionViewSet(ReadOnlyModelViewSet):
+    queryset = Question.objects.filter(is_active=True)
+    serializer_class = QuestionSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return QuestionDetailSerializer
+        else:
+            return QuestionSerializer

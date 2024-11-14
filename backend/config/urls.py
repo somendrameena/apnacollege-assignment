@@ -24,6 +24,7 @@ from api import views
 router = SimpleRouter()
 router.register('topic', views.TopicViewSet)
 router.register('chapter', views.ChapterViewSet)
+router.register('question', views.QuestionViewSet)
 
 urlpatterns = router.urls + [
     path('admin/', admin.site.urls),

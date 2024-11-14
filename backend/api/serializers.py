@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
-from api.models import Topic, Chapter
+from api.models import Topic, Chapter, Question
 
 User = get_user_model()
 
@@ -24,3 +24,23 @@ class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chapter
         fields = ['id', 'name', 'topic']
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    chapter = serializers.CharField(source="chapter.name")
+    topic = serializers.CharField(source="chapter.topic.name")
+
+    class Meta:
+        model = Question
+        fields = ['id', 'title', 'chapter', 'topic', 'created']
+
+
+class QuestionDetailSerializer(serializers.ModelSerializer):
+    topic = serializers.SerializerMethodField()
+
+    def get_topic(self, instance):
+        return instance.chapter.topic.name+ " - " + instance.chapter.name
+
+    class Meta:
+        model = Question
+        fields = ['id', 'title', 'topic', 'created', 'content']
